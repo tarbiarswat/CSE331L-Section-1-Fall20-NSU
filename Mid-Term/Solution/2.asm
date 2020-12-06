@@ -1,52 +1,64 @@
 
 
+.MODEL SMALL   
 
-
-
-
-.MODEL SMALL
- 
 .STACK 100H
 
 .DATA
+    PROMPT1 DB 10,13,"Digits: $"    
     
-PROMPT  DB  'Digits : $'
+    PROMPT2 DB 10,13,"Sum: $"
 
-.CODE  
+.CODE
 
 MAIN PROC
+    MOV AX, @DATA 
     
-MOV AX, @DATA  
-              
-MOV DS, AX
+    MOV DS, AX
+    
+    LEA DX, PROMPT1 
+    
+    MOV AH, 9      
+    
+    INT 21H
+    
+    MOV CX, 10
+    
+    MOV AH, 2     
+    
+    MOV DL, 48
 
-LEA DX, PROMPT
-                
-MOV AH, 9      
+    MOV BL, 0
+    
+@LOOP:
+    ADD BL, DL    
+    
+    SUB BL, 48     
+    
+    INT 21H        
+    
+    INC DL        
+    
+    DEC CX
+    
+JNZ @LOOP
 
-INT 21H
+    LEA DX, PROMPT2 
+    
+    MOV AH, 9         
+    
+    INT 21H
 
-MOV CX, 10 
-                  
-MOV AH, 2    
-                  
-MOV DL, 48                   
+    MOV AH, 2        
+    
+    MOV DL, BL       
+    
+    INT 21H
 
-@LOOP: 
-                           
-INT 21H                    
+    MOV AH, 4CH      
+    
+    INT 21H
+    
+MAIN ENDP           
 
-INC DL 
-                   
-DEC CX 
-       
-                           
-JNZ @LOOP                    
-
-MOV AH, 4CH
-                  
-INT 21H
-     
-MAIN ENDP 
-   
 END MAIN
