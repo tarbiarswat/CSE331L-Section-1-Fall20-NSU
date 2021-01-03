@@ -1,0 +1,72 @@
+
+; You may customize this and other start-up templates; 
+; The location of this template is c:\emu8086\inc\0_com_template.txt
+
+
+
+DATA SEGMENT
+
+NUM1 DW 1500
+
+NUM2 DW 2500
+
+HCF DW ?
+
+LCM DW ?
+
+ENDS
+
+CODE SEGMENT
+
+ASSUME DS:DATA CS:CODE
+
+START:
+
+MOV AX,DATA
+
+MOV DS,AX
+
+MOV AX,NUM1
+
+MOV BX,NUM2
+
+WHILE:MOV DX,0
+
+MOV CX,BX
+
+DIV BX
+
+MOV BX,DX
+
+MOV AX,CX
+
+CMP BX,0
+
+JNE WHILE
+
+MOV HCF,AX
+
+MOV CX,AX
+
+MOV AX,NUM1
+
+MOV BX,NUM2
+
+MUL BX
+
+DIV CX
+
+MOV LCM,AX
+
+MOV AH,4CH
+
+INT 21H
+
+ENDS
+
+END START
+
+
+
+
+
